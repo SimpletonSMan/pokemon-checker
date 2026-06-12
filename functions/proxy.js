@@ -6,14 +6,7 @@ export async function onRequest(context) {
   }
 
   try {
-    const baseUrl = url
-      .replace(/\/$/, "")
-      .replace(/\/raw$/, "")
-      .replace(/\/download$/, "");
-
-    const target = baseUrl + "/download";
-
-    const upstream = await fetch(target, {
+    const upstream = await fetch(url, {
       headers: {
         "User-Agent": "Mozilla/5.0"
       }
@@ -23,10 +16,9 @@ export async function onRequest(context) {
 
     return new Response(
       JSON.stringify({
-        target,
         status: upstream.status,
         ok: upstream.ok,
-        first500: text.substring(0, 500)
+        first1000: text.substring(0, 1000)
       }, null, 2),
       {
         headers: {
